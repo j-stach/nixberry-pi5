@@ -3,89 +3,55 @@
 use strict; use warnings;
 use File::Path qw{make_path};
 
-# Installs NixOS ARM to an SD memory card--
-# For use with Raspberry Pi 5 only!
+use lib '.';
+use Options;
+use Config;
+use Device;
 
-# Vars for the user to set via options.
-my $DEVICE = "mmcblk0"; # SD device to overwrite
+# Installs NixOS ARM to an SD memory card
+# (for use with Raspberry Pi 5)
+# Note: Requires Nix package manager to build.
 
 sub main {
+  my %opts = Options::set(@ARGV);
+  Device::ok(%opts{"DEVICE"}) or die "$!";
 
-  &parse_options;
-
-  if (&device_ok) { 
-    &partition_device;
-    &install_nixos;
+  if (%opts{"MODE"} eq "build") {
+    Device::partition($opts);
+    build_nixos($opts);
+  } else {
+    install_nixos($opts); 
   }
 
+  # TODO: Interactive CLI for options
+
 }
 
-# Parse options: perl install.pl [device] --options
-sub parse_options {
-  # If options are present, set them as globals.
-  # --swap 
-  # --config
-  # --config-dir
-  # --default
-}
+sub build_nixos {
+  my ($opts) = @_;
+  my $mp = &Device::mount($opts);
 
-# Find unmounted devices that could be repartitioned
-sub available_devices {
-  my @devices = `lsblk -rno NAME,MOUNTPOINT | awk '\$2 == "" && \$1 !~ /p[0-9]+/ { print \$1 }`;
-  chomp @devices; 
-  return @devices;
-}
+  Config::boot($mp, $opts);
+  Config::nixos($mp, $opts);
 
-# Ensures the user-supplied device name is available for partitioning.
-sub device_ok {
-  my @available = &available_devices;
-  foreach my $device (@available) {
-    if ($device eq $DEVICE) { return 1 }
-  }
-  die "ERROR: Device '$DEVICE' is either mounted or nonexistant."
-}
+  # TODO: chroot & run nixos-install
 
-# Partition and format the device.
-sub partition_device {
-  # p1: Boot partition (FAT32)
-  # p2: Root partition (rest available)
-  # p3: Swap partition (2GB Linux swap, type 82)
-  my $commands = <<'COMMANDS';
-,256M,0c,
-,,,-
-,+2G,82
-COMMANDS
-
-  open(my $util, '|-', "sfdisk --wipe always $DEVICE") or die "$!";
-  print $util $commands;
-  close $util or die "ERROR: Partitioning failed: $!";
-
-  # Format BOOT
-  system("mkfs.vfat -F 32 $DEVICE.p1") == 0 or die "$!";
-  # Format ROOT
-  my $ext4_options = "-E lazy_itable_init=0,lazy_journal_init=0";
-  system("mkfs.ext4 $ext4_options -F $DEVICE.p2") == 0 or die "$!";
-  # Format SWAP
-  system("mkswap $DEVICE.p3 && swapon $DEVICE.p3") == 0 or die "$!";
-}
-
-
-sub install_nixos {
-  my $mp = "/mnt/sd";
-  # Mount ROOT
-  make_path($mp);
-  system("mount $DEVICE.p2 $mp") == 0 or die "$!";
-  # Mount BOOT
-  make_path("$mp/boot");
-  system("mount $DEVICE.p1 $mp/boot") == 0 or die "$!";
-  system("sync") == 0 or die "$!";
-
-  # TODO Set up ROOT and BOOT
-  #
-
-  # Clean up 
   system("sync && umount -R $mp") == 0 or die "$!";
 }
+
+sub install_nixos {
+
+  if (%opts{"MODE"} eq "clone") {
+    # TODO Get image to flash
+  } else {
+    #
+    # match options to get corresponding image file  
+    # flash 8GB image to disk
+    # resize root to fit SD, using sfdisk
+    # additional options for config 
+  }
+}
+
 
 # Execute the script.
 main();
