@@ -2,6 +2,8 @@
 #!/usr/bin/perl 
 package Options;
 
+  # TODO: Interactive CLI for options
+
 use strict; use warnings;
 use lib '.';
 use Device;

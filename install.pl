@@ -1,5 +1,10 @@
 
 #!/usr/bin/perl
+
+# Installs NixOS ARM to an SD memory card
+# (for use with Raspberry Pi 5)
+# Note: Requires Nix package manager to build from file.
+
 use strict; use warnings;
 use File::Path qw{make_path};
 
@@ -8,50 +13,56 @@ use Options;
 use Config;
 use Device;
 
-# Installs NixOS ARM to an SD memory card
-# (for use with Raspberry Pi 5)
-# Note: Requires Nix package manager to build.
-
 sub main {
+  # Parse, sanitize & set installation options
   my %opts = Options::set(@ARGV);
-  Device::ok(%opts{"DEVICE"}) or die "$!";
 
-  if (%opts{"MODE"} eq "build") {
-    Device::partition($opts);
-    build_nixos($opts);
-  } else {
-    install_nixos($opts); 
-  }
+  # Select premade image to install, based on options
+  install_nixos(\%opts) or die "$!";
 
-  # TODO: Interactive CLI for options
+  # TODO: Option for building from config
+
+  # Otherwise, prompt the user to select a device
+  # TODO: Double check this after setting up config structure 
+  print <<'FINISHED';
+Installation successful!
+It is now safe to remove your SD card.
+
+You can plug the card into your Raspberry Pi 5 and boot.
+The default root password is "root", remember to change it!
+The default user is "user", with the password "nixos".
+These can be customized in /etc/nixos/configuration.nix.
+
+See the NixOS documentation for further assistance.
+
+Enjoy!
+FINISHED
 
 }
 
-sub build_nixos {
-  my ($opts) = @_;
-  my $mp = &Device::mount($opts);
-
-  Config::boot($mp, $opts);
-  Config::nixos($mp, $opts);
-
-  # TODO: chroot & run nixos-install
-
-  system("sync && umount -R $mp") == 0 or die "$!";
-}
+## TODO: Build NixOS from config file using nixos-install
+#sub build_nixos {
+#  my ($opts) = @_;
+#  Device::partition($opts);
+#  my $mp = &Device::mount(%opts{"DEVICE"});
+#
+#  Config::boot($mp, $opts);
+#  Config::nixos($mp, $opts);
+#
+#  # TODO: chroot & run nixos-install
+#
+#  system("sync && umount -R $mp") == 0 or die "$!";
+#}
 
 sub install_nixos {
+  my ($opts) = @_;
 
-  if (%opts{"MODE"} eq "clone") {
-    # TODO Get image to flash
-  } else {
-    #
-    # match options to get corresponding image file  
-    # flash 8GB image to disk
-    # resize root to fit SD, using sfdisk
-    # additional options for config 
-  }
+  # Based on flags, get 4GB image file 
+  # Flash to SD card 
+  # Resize swap based on value provided
+  # Resize root to fit the remainder of the card
+  # TBD: Is this done in `configuration.nix` or with sfdisk? Or both?
 }
 
 
-# Execute the script.
 main();
