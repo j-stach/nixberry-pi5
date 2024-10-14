@@ -10,7 +10,6 @@ use Device;
 # Parse options and return settings as a hash
 sub set {
   my @args = @_;
-
   my %opts = ();
 
   foreach my $arg (@args) {
@@ -23,13 +22,20 @@ sub set {
 # Parse argument into flag, option, or device path
 sub parse {
   my ($arg, $opts) = @_;
-  if ($arg =~ /^-([a-Z]+)$/) { flag($opts, $1) }
-  elsif ($arg =~ /^--(?<opt>[a-Z]+)(?:=(?<value>[]))?$/) { 
-    option($opts, $+{opt}, $+{value})
+
+  # Flag pattern
+  if ($arg =~ /^-([a-Z]+)$/) { set_flags($opts, $1) }
+
+  # Option pattern
+  elsif ($arg =~ /^--(?<opt>[a-Z]+)(?:=(?<value>.*))?$/) { 
+    set_option($opts, $+{opt}, $+{value})
   }
+
+  # Device pattern 
   elsif ($arg =~ /^([0-9a-Z\/\-_])$/) {
-    $opts{device} = device($1);
+    $opts->{device} = select_device($1);
   }
+
   else {
     die 
 "Unrecognized argument '$arg'.\n
@@ -38,7 +44,7 @@ Refer to the README for instructions.\n";
 }
 
 # Match flag pattern and set values
-sub flag {
+sub set_flags {
   my ($opts, $flags) = @_;
   unless ($flags =~ /^(?!.*(.).*\1)[mfh]{1,3}$/) {
     die 
@@ -51,14 +57,18 @@ Refer to the README for instructions.\n";
 }
 
 # Match option pattern and set values
-sub option {
+sub set_option {
   my ($opts, $option, $value) = @_;
+
+  # Help option
   if ($option =~ /help/) { 
     die 
-"Usage:
-sudo perl install.pl -[f, m, and/or h] --swap=[0, 1, or 2] /dev/[DEVICE]\n
+"Usage:\n
+sudo perl install.pl -[f, m, and/or h] --swap=[0, 1, or 2] /dev/[device name]\n
 Refer to the README for instructions.\n";
   }
+
+  # Set swap partition size
   elsif ($option =~ /swap/) {
     unless (
       $value =~ /^\d+$/ && 
@@ -72,16 +82,13 @@ Refer to the README for instructions.\n";
 }
 
 # Specify the device to which NixOS will be flashed
-sub device {
-  my ($dev) = @_; 
-  # If device cannot be flashed, select a new one
-  unless (-b $dev) { $dev = &select_device }
-  return $dev
-}
-
-# Choose device from selection if one is not provided explicitly
 sub select_device {
-  # Prompt the user to select a device
+  my ($dev) = @_; 
+
+  # If the user-provided device is good, use it
+  if (-b $dev && Device::ok($dev)) { return $dev }
+
+  # Otherwise, prompt the user to select a device
   print <<'PROMPT';
 You did not specify a device or the device specified is not flashable.
 Would you like to choose a device now? Enter a number:
@@ -106,13 +113,14 @@ PROMPT
 Abort, then use `lsblk` to view them.\n";
         break 
       }
-      # TODO Get device hardware name? Get size?
+      # TODO Get device hardware name, type? Get size?
       print "$count   $dev\n";
     }
   }
 
   # Wait for user to select a device
   RESPOND:
+  print "Your selection: ";
   my $response = <STDIN>;
   unless (
     $response =~ /^\d+$/ && 
@@ -120,8 +128,8 @@ Abort, then use `lsblk` to view them.\n";
     $response <= 20
   ) { 
     print 
-"Invalid selection '$response'.\n
-Please choose one of the options above.\n";
+"Invalid selection: '$response'.\n
+Please choose one of the options above. Enter 0 to abort.\n";
     goto RESPOND;
   }
 
