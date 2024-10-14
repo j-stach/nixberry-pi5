@@ -1,26 +1,21 @@
 
-# Dev TODO
+# Dev TODO list
 - [x] Break into modules
-- [ ] Option to use preexisting `configuration.nix` for both partition and install
-- [ ] Raspberry Pi HW compatability as a flake?
-- [ ] `clone.pl` for copying entire images
+- [ ] Remove command logic & run debug
+- [ ] Initial images on RPi
 
 
-## options.pm
-Process normal options:
-- [ ] Device name `/dev/mmcblk0`
-Add advanced options for installer:
-- [ ] Flakes 
-- [ ] User 
-- [ ] Swap size adjustment
+## Options.pm
+- [x] Options parsing for flags and option
+
+## Device.pm
+- [ ] Clean up
 
 
-## files.pm
-- [ ] Load default files, read them into lines,
-- [ ] Add lines based on options provided 
-- [ ] Write to new copies in the mounted filesystem
+# Future directions
+- [ ] Streamline process for using existing `configuration.nix` files to build for the Pi
+- [ ] Parse and inject necessary Nix code, 
+- [ ] Or give them a one-liner for their config
 
-- [ ] Flakes enabled?
-- [ ] Kernel-as-flake or as-tarball
 
 
