@@ -1,4 +1,5 @@
 
+#/usr/bin/perl
 package Device;
 
 # Ensures the user-supplied device name is available for partitioning.
@@ -25,8 +26,8 @@ sub partition_device {
   # p3: Swap partition (2GB Linux swap, type 82)
   my $commands = <<'COMMANDS';
 ,256M,0c,
-,,,-
 ,+2G,82
+,,,-
 COMMANDS
 
   open(my $util, '|-', "sfdisk --wipe always $DEVICE") or die "$!";
