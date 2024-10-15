@@ -14,6 +14,9 @@ sub set {
   my @args = @_;
   my %opts = ();
 
+  # Deafult swap partition size is 2GB
+  $opts{swap} = 2;
+
   foreach my $arg (@args) {
     parse($arg, \%opts);
   }
@@ -26,15 +29,15 @@ sub parse {
   my ($arg, $opts) = @_;
 
   # Flag pattern
-  if ($arg =~ /^-([a-Z]+)$/) { set_flags($opts, $1) }
+  if ($arg =~ /^-([a-zA-Z]+)$/) { set_flags($opts, $1) }
 
   # Option pattern
-  elsif ($arg =~ /^--(?<opt>[a-Z]+)(?:=(?<value>.*))?$/) { 
+  elsif ($arg =~ /^--(?<opt>[a-zA-Z]+)(?:=(?<value>.*))?$/) { 
     set_option($opts, $+{opt}, $+{value})
   }
 
   # Device pattern 
-  elsif ($arg =~ /^([0-9a-Z\/\-_])$/) {
+  elsif ($arg =~ /^([0-9a-zA-Z\/\-_])$/) {
     $opts->{device} = select_device($1);
   }
 
@@ -45,6 +48,7 @@ Refer to the README for instructions.\n";
   }
 }
 
+
 # Match flag pattern and set values
 sub set_flags {
   my ($opts, $flags) = @_;
@@ -53,16 +57,17 @@ sub set_flags {
 "Unrecognized or duplicate flag in '-$flags'. Valid flags are -f, -m, and -h.\n
 Refer to the README for instructions.\n";
   }
-  if ($flags) =~ /f/ { $opts->{flakes} = 1; }
-  if ($flags) =~ /m/ { $opts->{home_manager} = 1; }
-  if ($flags) =~ /h/ { $opts->{hyprland} = 1; }
+  if ($flags =~ /f/) { $opts->{flakes} = 1; }
+  if ($flags =~ /m/) { $opts->{home_manager} = 1; }
+  if ($flags =~ /h/) { $opts->{hyprland} = 1; }
 }
+
 
 # Match option pattern and set values
 sub set_option {
   my ($opts, $option, $value) = @_;
 
-  # Help option
+  # Get help info
   if ($option =~ /help/) { 
     die 
 "Usage:\n
@@ -81,9 +86,11 @@ Refer to the README for instructions.\n";
     
     $opts->{swap} = $value; 
   }
+
 }
 
-# Specify the device to which NixOS will be flashed
+
+# Specify the device to which NixOS shall be flashed
 sub select_device {
   my ($dev) = @_; 
 
@@ -113,7 +120,7 @@ PROMPT
         print 
 "More devices are available but were omitted...\n
 Abort, then use `lsblk` to view them.\n";
-        break 
+        last 
       }
       # TODO Get device hardware name, type? Get size?
       print "$count   $dev\n";
