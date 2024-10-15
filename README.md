@@ -9,10 +9,10 @@ Tests needed:
 ## Materials:
 - Raspberry Pi 5 
 - Computer with Linux
-- Micro-SD card (Minimum 8GB. Recommend at least 16GB for desktop.)
+- Micro-SD card (Minimum 8GB. Recommend at least 16GB for Hyprland desktop.)
 - Micro-SD reader/adapter
 
-## Use:
+## Usage:
 The script can be used one of two ways:
 - Clone a premade image from this repo and flash it 
 - Build NixOS from configuration files using Nix package manager **(Not yet implemented)**
@@ -44,7 +44,7 @@ Setting X to 0 will format the card without a swap partition.
 ```
 sudo perl install.pl -fmh --swap=1 /dev/mmcblk0
 ```
-This command installs NixOS to `mmcblk0`, sets a reduced (1GB) swap partition, and configures Nix to include flakes, Home Manager, and Hyprland. This would fit comfortably on an 8GB memory card.
+This command installs NixOS to `mmcblk0`, sets a reduced (1GB) swap partition, and configures Nix to include flakes, Home Manager, and Hyprland. This would fit comfortably on a 16GB+ memory card.
 
 #### Install now:
 ```
@@ -52,7 +52,7 @@ TODO
 ```
 
 
-### B. Build NixOS from configuration file using Nix
+### B. Build NixOS from configuration file using Nix (WIP)
 **Work in-progress**
 - Requires Nix package manager. 
 - Will build directly on the SD card using `nixos-build` and an existing `configuration.nix` file.
