@@ -18,7 +18,7 @@ The script can be used one of two ways:
 - Build NixOS from configuration files using Nix package manager **(Not yet implemented)**
 
 ### A. Flash a premade NixOS image
-The images in this repo were created by following the wiki instructions for [NixOS on ARM/Raspberry Pi 5](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_5)`.
+The images in this repo were created by following the wiki instructions for [NixOS on ARM/Raspberry Pi 5](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_5).
 
 ```
 sudo perl install.pl DEVICE
@@ -58,9 +58,9 @@ TODO
 - Will build directly on the SD card using `nixos-build` and an existing `configuration.nix` file.
 
 ## Dev resources
-[https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_5]
-[https://github.com/worproject/rpi5-uefi#getting-started]
-[https://nixos.wiki/wiki/NixOS_on_ARM/UEFI]
-[https://gitlab.com/vriska/nix-rpi5]
-[https://nixos.wiki/wiki/flakes]
+- https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_5
+- https://github.com/worproject/rpi5-uefi#getting-started
+- https://nixos.wiki/wiki/NixOS_on_ARM/UEFI
+- https://gitlab.com/vriska/nix-rpi5
+- https://nixos.wiki/wiki/flakes
 
