@@ -12,33 +12,38 @@ use lib '.';
 use Options;
 use Config;
 use Device;
+use Image;
+
+main();
 
 sub main {
+  make_path("/tmp/nixberry")
   # Parse, sanitize & set installation options
   my %opts = Options::set(@ARGV);
 
   # Select premade image to install, based on options
-  install_nixos(\%opts) or die "$!";
+  Image::flash(\%opts) or die "$!";
 
-  # TODO: Option for building from config
+  # TODO: Mode for building from config
 
-  # Otherwise, prompt the user to select a device
-  # TODO: Double check this after setting up config structure 
+  # Cleanup any temporary files created
+  system("sudo rm -rf /tmp/nixberry");
+
   print <<'FINISHED';
 Installation successful!
 It is now safe to remove your SD card.
 
 You can plug the card into your Raspberry Pi 5 and boot.
+It should work right away.
+
 The default root password is "root", remember to change it!
 The default user is "user", with the password "nixos".
 These can be customized in /etc/nixos/configuration.nix.
 
-See the NixOS documentation for further assistance.
-
 Enjoy!
 FINISHED
-
 }
+
 
 ## TODO: Build NixOS from config file using nixos-install
 #sub build_nixos {
@@ -54,15 +59,3 @@ FINISHED
 #  system("sync && umount -R $mp") == 0 or die "$!";
 #}
 
-sub install_nixos {
-  my ($opts) = @_;
-
-  # Based on flags, get 4GB image file 
-  # Flash to SD card 
-  # Resize swap based on value provided
-  # Resize root to fit the remainder of the card
-  # TBD: Is this done in `configuration.nix` or with sfdisk? Or both?
-}
-
-
-main();
