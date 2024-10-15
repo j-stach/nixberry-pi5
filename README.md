@@ -13,9 +13,9 @@ Tests needed:
 - Micro-SD reader/adapter
 
 ## Usage:
-The script can be used one of two ways:
-- Clone a premade image from this repo and flash it 
-- Build NixOS from configuration files using Nix package manager **(Not yet implemented)**
+The script can be used one of two ways: <br>
+**A.** Clone a premade image from this repo and flash it <br>
+**B.** Build NixOS from configuration files using Nix package manager **(Not yet implemented)** <br>
 
 ### A. Flash a premade NixOS image
 The images in this repo were created by following the wiki instructions for [NixOS on ARM/Raspberry Pi 5](https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi_5).
