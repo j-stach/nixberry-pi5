@@ -8,9 +8,9 @@ Tests needed:
 
 ## Materials:
 - Raspberry Pi 5 
-- Micro-SD card (Recommend at least 8GB of memory)
 - Computer with Linux
-- Micro-SD reader-adapter, if your computer does not already have one
+- Micro-SD card (Minimum 8GB. Recommend at least 16GB for desktop.)
+- Micro-SD reader/adapter
 
 ## Use:
 The script can be used one of two ways:
