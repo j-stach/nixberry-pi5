@@ -5,7 +5,7 @@ These are default images to use in fresh installations
 They are saved as tarballs for faster downloading.
 
 Swap partition is 2GB by default, and configured by the script.
-Root will be expanded to to use all remaining available space.
+Root will be expanded to use all remaining available space.
 
 nixberry-pi5
 nixberry-pi5-f
