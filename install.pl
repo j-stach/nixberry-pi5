@@ -10,7 +10,7 @@ use File::Path qw{make_path};
 
 use lib '.';
 use Options;
-use Config;
+use Configure;
 use Device;
 use Image;
 
@@ -53,8 +53,8 @@ sub build_nixos {
   Device::make_fs($opts->{device});
   my $mp = Device::mount_partitions($opts->{device});
 
-  Config::boot($mp, $opts);
-  Config::nixos($mp, $opts);
+  Configure::boot($mp, $opts);
+  Configure::nixos($mp, $opts);
 
   system("sync && umount -R $mp") == 0 or die "$!";
 }

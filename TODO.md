@@ -1,7 +1,7 @@
 
 # Dev TODO list
 - [x] Break into modules
-- [ ] Remove command logic & run debug
+- [ ] Need to redo check for disk availability, for now go unsafe version
 
 ## Files
 - [ ] pi5-config.nix

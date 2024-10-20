@@ -44,7 +44,7 @@ sub parse {
   }
 
   # Device pattern 
-  elsif ($arg =~ /^([0-9a-zA-Z\/\-_])$/) {
+  elsif ($arg =~ /^([0-9a-zA-Z\/\-_]+)$/) {
     $opts->{device} = select_device($1);
   }
 
