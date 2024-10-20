@@ -2,6 +2,7 @@
 #/usr/bin/perl
 package Device;
 
+use strict; use warnings;
 
 # Ensures the user-supplied device name is available for partitioning.
 sub ok {
@@ -53,20 +54,23 @@ COMMANDS
 1;
 
 
-## Make file system for newly-partitioned disk.
-#sub make_fs {
-#  my ($device) = @_;
-#  # Format BOOT
-#  system("mkfs.vfat -F 32 -n boot $device.p1") == 0 or die "$!";
-#  # Format ROOT
-#  my $ext4_options = "-L nixos -E lazy_itable_init=0,lazy_journal_init=0";
-#  system("mkfs.ext4 $ext4_options -F $device.p2") == 0 or die "$!";
-#  # Format SWAP
-#  system("mkswap -L swap $device.p3 && swapon $device.p3") == 0 or die "$!";
-#}
+# Make file system for newly-partitioned disk.
+sub make_fs {
+  my ($device) = @_;
+  # Format BOOT at p1
+  system("mkfs.vfat -F 32 -n boot $device.p1") == 0 or die "$!";
+  # Format ROOT at p2
+  my $ext4_options = "-L nixos -E lazy_itable_init=0,lazy_journal_init=0";
+  system("mkfs.ext4 $ext4_options -F $device.p2") == 0 or die "$!";
+  # Format SWAP at p3
+  system("mkswap -L swap $device.p3 && swapon $device.p3") == 0 or die "$!";
+}
 
 
+# Helper to mount filesystem partitions.
+# Returns the mount point as a string.
 sub mount_partitions {
+  my ($device) = @_;
   # TODO Check path to make sure no other SDs are mounted.
   my $mp = "/mnt/sd";
   # Mount ROOT

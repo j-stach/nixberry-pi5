@@ -11,6 +11,7 @@ Tests needed:
 - Computer with Linux
 - Micro-SD card (Minimum 8GB. Recommend at least 16GB for Hyprland desktop.)
 - Micro-SD reader/adapter
+- TODO: There are other tool dependencies, like `curl`
 
 ## Usage:
 The script can be used one of two ways: <br>

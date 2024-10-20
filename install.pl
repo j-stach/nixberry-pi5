@@ -21,13 +21,15 @@ sub main {
   my %opts = Options::set(@ARGV);
 
   # Select premade image to install, based on options
-  Image::flash(\%opts) or die "$!";
+  #Image::flash(\%opts) or die "$!";
+  build_nixos(\%opts);
 
   # TODO: Mode for building from config
 
   # Cleanup any temporary files created
   system("sudo rm -rf /tmp/nixberry");
 
+  # TODO: This should change based on flakes...
   print <<'FINISHED';
 Installation successful!
 It is now safe to remove your SD card.
@@ -48,6 +50,7 @@ FINISHED
 sub build_nixos {
   my ($opts) = @_;
   Device::partition($opts);
+  Device::make_fs($opts->{device});
   my $mp = Device::mount_partitions($opts->{device});
 
   Config::boot($mp, $opts);

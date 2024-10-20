@@ -49,9 +49,9 @@
         time.timeZone = "UTC";
 
 
-        # Set passwords on user-create only
-        # Use password utilities at all other times
-        users.mutableUsers = true;
+        # Change this to "true" if you want to use user management utilities
+        # (Like `passwd`, `useradd`, etc.) instead of Nix
+        users.mutableUsers = false;
         # Default users:
         # REMEMBER TO CHANGE YOUR PASSWORDS!
         users.users = { 

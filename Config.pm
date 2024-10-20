@@ -2,7 +2,8 @@
 package Config;
 
 # NOTE: These subs all expect the disk root and boot partitions have been mounted
-# Use `Device::mount_partitions` for that
+# and filesystems set up.
+# Use `Device::mount_partitions` and `Device::make_fs`
 
 use strict; use warnings;
 
@@ -99,9 +100,9 @@ sub get_config_file {
 
   # Copy nix config from this repo into /etc/nixos/
   if ($opts->{flakes} == 1)       {
-    system("curl -sL $files/$file.nix -o $config/flake.nix");
+    system("curl -sL $files/$file.nix -o $config/flake.nix") or die "$!";
   } else {
-    system("curl -sL $files/$file.nix -o $config/configuration.nix");
+    system("curl -sL $files/$file.nix -o $config/configuration.nix") or die "$!";
   } 
 
 }
@@ -121,7 +122,7 @@ sub nixos_install {
   }
 
   # Chroot & set root password
-  system("echo 'root:root' | sudo chroot $root chpasswd");
+  system("echo 'root:root' | sudo chroot $root chpasswd") or die "$!";
 }
 
 
