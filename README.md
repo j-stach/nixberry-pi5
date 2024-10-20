@@ -31,13 +31,14 @@ If you don't provide a device name, the script will get a list of devices availa
 Omitting any of the following options will cause the script to follow its default behavior.
 
 #### Options for installation:
-- `-f` Configure NixOS to use flakes, and include the Pi-supported kernel as a flake. 
+- `-f` Configure NixOS to use a flakes to define the system, and include the Pi-supported kernel as a flake.
 - `-m` Confifure NixOS to use Home Manager. If `-f`, it will include Home Manager as its own flake. 
 - `-h` Include `hyprland` (with `hyprpaper` and `swaylock`) as the desktop environment, and install `alacritty` as the default terminal emulator. If `-m`, it will configure Hyprland using Home Manager instead of `hyprland.conf`.
 
 #### Additional options:
 - `--swap=X` Use *X* to set the size of the swap partition (in GB). 
 For simplicity's sake and to preserve the longevity of the SD card, the choices for X are limited to `2` (default), `1`, and `0`. 
+However, if you bully me enough, I am willing to change my mind about this.
 Setting X to 0 will format the card without a swap partition. 
 
 #### Example:
@@ -63,4 +64,5 @@ TODO
 - https://nixos.wiki/wiki/NixOS_on_ARM/UEFI
 - https://gitlab.com/vriska/nix-rpi5
 - https://nixos.wiki/wiki/flakes
+- https://github.com/worproject/rpi5-uefi/releases
 

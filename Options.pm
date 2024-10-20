@@ -3,6 +3,7 @@
 package Options;
 
   # TODO: Interactive CLI for options
+  # TODO: Check dependencies for given options. Put this in Utils.pm
 
 use strict; use warnings;
 use lib '.';
@@ -12,7 +13,13 @@ use Device;
 # Parse options and return settings as a hash
 sub set {
   my @args = @_;
-  my %opts = ();
+  my %opts = (
+    # Default opts here
+    flakes        => 0,
+    home_manager  => 0,
+    hyprland      => 0,
+    swap          => 2,
+  );
 
   # Deafult swap partition size is 2GB
   $opts{swap} = 2;
@@ -141,6 +148,8 @@ Abort, then use `lsblk` to view them.\n";
 Please choose one of the options above. Enter 0 to abort.\n";
     goto RESPOND;
   }
+
+  if ($response == 0) { die "Installation cancelled. Bye!" }
 
   # Get device name by index and return it
   my $choice = $available[$response - 1];

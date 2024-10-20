@@ -22,7 +22,7 @@ sub available_devices {
 
 
 # Partition the device. 
-# The options are 2, 1, and 0 GB. 
+# The options for swap are 2, 1, and 0 GB.
 # If 0, no swap partition will be created.
 sub partition {
   my ($device, $swap) = @_;
@@ -66,17 +66,17 @@ COMMANDS
 #}
 
 
-##sub mount_partitions {
-#  # TODO Check path to make sure no other SDs are mounted.
-#  my $mp = "/mnt/sd";
-#  # Mount ROOT
-#  make_path($mp);
-#  system("mount $device.p2 $mp") == 0 or die "$!";
-#  # Mount BOOT
-#  make_path("$mp/boot");
-#  system("mount $device.p1 $mp/boot") == 0 or die "$!";
-#  system("sync") == 0 or die "$!";
-#  return $mp;
-#}
+sub mount_partitions {
+  # TODO Check path to make sure no other SDs are mounted.
+  my $mp = "/mnt/sd";
+  # Mount ROOT
+  make_path($mp);
+  system("mount $device.p2 $mp") == 0 or die "$!";
+  # Mount BOOT
+  make_path("$mp/boot");
+  system("mount $device.p1 $mp/boot") == 0 or die "$!";
+  system("sync") == 0 or die "$!";
+  return $mp;
+}
 
 

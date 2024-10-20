@@ -4,13 +4,9 @@
 - [ ] Remove command logic & run debug
 - [ ] Initial images on RPi
 
-
-## Options.pm
-- [x] Options parsing for flags and option
-
-## Device.pm
-- [ ] Clean up
-
+## Files
+- [ ] flake.nix. flake-m.nix, flake-mh.nix, flake-h.nix
+- [ ] configuration.nix, -m.nix, -mh.nix, -h.nix
 
 # Future directions
 - [ ] Streamline process for using existing `configuration.nix` files to build for the Pi

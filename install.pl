@@ -14,10 +14,9 @@ use Config;
 use Device;
 use Image;
 
-main();
 
 sub main {
-  make_path("/tmp/nixberry")
+  make_path("/tmp/nixberry");
   # Parse, sanitize & set installation options
   my %opts = Options::set(@ARGV);
 
@@ -45,17 +44,16 @@ FINISHED
 }
 
 
-## TODO: Build NixOS from config file using nixos-install
-#sub build_nixos {
-#  my ($opts) = @_;
-#  Device::partition($opts);
-#  my $mp = &Device::mount(%opts{"DEVICE"});
-#
-#  Config::boot($mp, $opts);
-#  Config::nixos($mp, $opts);
-#
-#  # TODO: chroot & run nixos-install
-#
-#  system("sync && umount -R $mp") == 0 or die "$!";
-#}
+# TODO: Build NixOS from config file using nixos-install
+sub build_nixos {
+  my ($opts) = @_;
+  Device::partition($opts);
+  my $mp = Device::mount_partitions($opts->{device});
 
+  Config::boot($mp, $opts);
+  Config::nixos($mp, $opts);
+
+  system("sync && umount -R $mp") == 0 or die "$!";
+}
+
+main();
