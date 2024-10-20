@@ -41,7 +41,7 @@
 
         # Kernel from vraska's flake. 
         # TODO Fork this flake with-without flakes-compat
-        boot.kernelPackages = nix-rpi5.legacyPackages.aarch64_linux.linuxPackages_rpi5;
+        boot.kernelPackages = nix_rpi5.legacyPackages.aarch64_linux.linuxPackages_rpi5;
 
 
         # Host info. You can set this however you like.
