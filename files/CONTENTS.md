@@ -8,3 +8,12 @@ For now, that's too many checks and I just need to get this running.
 ## configuration.nix
 ## hardware-configuration.nix
 ## config.txt
+
+- [ ] pi5-config.nix
+- [ ] pi5-config-fmh.nix
+- [ ] pi5-config-fm.nix
+- [ ] pi5-config-fh.nix
+- [ ] pi5-config-f.nix
+- [ ] pi5-config-mh.nix
+- [ ] pi5-config-m.nix
+- [ ] pi5-config-h.nix

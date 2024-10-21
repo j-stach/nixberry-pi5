@@ -11,7 +11,7 @@
     nix-rpi5.url = "gitlab:vriska/nix-rpi5";
   };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs, ... }: {
     nixosConfigurations.rpi5 = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux"; 
       modules = [{ # SYSTEM CONFIG HERE
@@ -43,7 +43,7 @@
         # Kernel from vraska's flake. 
         # TODO Fork this flake with-without flakes-compat
         # BUG nix-rpi5 isn't recognized
-        boot.kernelPackages = nix_rpi5.legacyPackages.aarch64_linux.linuxPackages_rpi5;
+        boot.kernelPackages = nix-rpi5.legacyPackages.aarch64_linux.linuxPackages_rpi5;
 
 
         # Host info. You can set this however you like.
