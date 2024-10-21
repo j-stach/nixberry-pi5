@@ -11,7 +11,7 @@
     rpi5-support.url = "github:j-stach/nixberry-pi5/rpi5-support";
   };
 
-  outputs = { self, nixpkgs, nix-rpi5, ... }: {
+  outputs = { self, nixpkgs, rpi5-support }: {
     nixosConfigurations.rpi5 = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       # Use the packages available to the Pi's architecture

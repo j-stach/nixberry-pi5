@@ -26,5 +26,6 @@
 
 # Future directions
 - [ ] Streamline process for using existing `configuration.nix` files to build for the Pi
+- [ ] Compatability layer for flake-compat
 
 
