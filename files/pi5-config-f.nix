@@ -8,7 +8,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # TODO: Fork this, it shouldn't be that hard to maintain.
     # BUG Coincidentally, this is not pulling. Merge it into this file.
-    rpi5-support.url = "github:j-stach/nixberry-pi5/rpi5-support";
+    rpi5-support.url = "github:j-stach/rpi5-support";
   };
 
   outputs = { self, nixpkgs, rpi5-support }: {
