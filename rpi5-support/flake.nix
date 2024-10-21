@@ -1,6 +1,5 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
-  inputs.flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
 
   outputs = { nixpkgs, ... }: {
     legacyPackages.aarch64-linux = with nixpkgs.legacyPackages.aarch64-linux; rec {
@@ -28,11 +27,13 @@
         };
 
       } (oldAttrs: {
+        # Clear the local version in the kernel config to avoid conflict
         postConfigure = ''
           sed -i $buildRoot/.config -e 's/^CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=""/'
           sed -i $buildRoot/include/config/auto.conf -e 's/^CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=""/'
         '';
 
+        # Adjust the Device Tree Binary (DTB) filenames for Raspberry Pi 5
         postFixup = ''
           dtbDir="$out/dtbs/broadcom"
           rm $dtbDir/bcm283*.dtb

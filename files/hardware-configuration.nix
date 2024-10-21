@@ -1,4 +1,5 @@
 {
+  # TBD Might not need all of this, actually. If running "install" it should generate?
   fileSystems."/" = {
     device = "/dev/mmcblk0p2";
     fsType = "ext4";
