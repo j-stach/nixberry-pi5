@@ -24,8 +24,6 @@
         #boot.loader.generic-extlinux-compatible.copyKernels = true;
         #boot.loader.generic-extlinux-compatible.configFile = "/boot/extlinux/extlinux.conf";
 
-        # Include the hardware configuration
-        imports = [ ./hardware-configuration.nix ];
 
         # File systems
         fileSystems = {
