@@ -97,8 +97,8 @@ sub get_config_file {
   my $files = "https://raw.githubusercontent.com/j-stach/nixberry-pi5/main/files";
 
   # Copy hardware config from this repo into /etc/nixos/
-  my $hw_config = "hardware-configuration.nix";
-  system("curl -sL $files/$hw_config -o $config/$hw_config") == 0 or die "$!";
+  #my $hw_config = "hardware-configuration.nix";
+  #system("curl -sL $files/$hw_config -o $config/$hw_config") == 0 or die "$!";
 
   # Build filename by matching options
   my $file = "pi5-config-";
