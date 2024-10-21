@@ -8,7 +8,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # TODO: Fork this, it shouldn't be that hard to maintain.
     # BUG Coincidentally, this is not pulling. Merge it into this file.
-    nix-rpi5.url = "github:j-stach/nixberry-pi5/rpi5-support";
+    rpi5-support.url = "github:j-stach/nixberry-pi5/rpi5-support";
   };
 
   outputs = { self, nixpkgs, nix-rpi5, ... }: {
@@ -46,7 +46,7 @@
         # Kernel from vraska's flake. 
         # TODO Fork this flake with-without flakes-compat
         # BUG nix-rpi5 isn't recognized
-        boot.kernelPackages = nix-rpi5.legacyPackages.aarch64-linux.linuxPackages_rpi5;
+        boot.kernelPackages = rpi5-support.legacyPackages.aarch64-linux.linuxPackages_rpi5;
 
 
         # Host info. You can set this however you like.
