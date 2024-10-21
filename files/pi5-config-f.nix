@@ -11,7 +11,7 @@
     nix-rpi5.url = "gitlab:vriska/nix-rpi5";
   };
 
-  outputs = { self, nixpkgs, ... }: {
+  outputs = { self, nixpkgs, nix-rpi5, ... }: {
     nixosConfigurations.rpi5 = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux"; 
       modules = [{ # SYSTEM CONFIG HERE
