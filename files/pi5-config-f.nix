@@ -62,6 +62,9 @@
         };
 
 
+        # Use the packages available to the Pi's architecture
+        pkgs = import nixpkgs { system = "aarch64-linux"; };
+
         # System packages can go here:
         environment.systemPackages = with pkgs; [
           #vim
