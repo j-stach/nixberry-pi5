@@ -15,7 +15,7 @@
     nixosConfigurations.rpi5 = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       # Use the packages available to the Pi's architecture
-      #pkgs = import nixpkgs { system = "aarch64-linux"; };
+      pkgs = import nixpkgs { system = "aarch64-linux"; };
 
       modules = [{ # SYSTEM CONFIG HERE
       
@@ -64,7 +64,7 @@
 
 
         # System packages can go here:
-        environment.systemPackages = with nixpkgs.pkgs; [
+        environment.systemPackages = with pkgs; [
           #vim
           #htop
         ];

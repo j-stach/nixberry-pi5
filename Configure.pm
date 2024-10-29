@@ -118,16 +118,19 @@ sub get_config_file {
 # Install NixOS using the configuration provided
 sub nixos_install {
   my ($root, $opts) = @_;
-  my $config = $root."/etc/nixos/";
+  my $config = $root."/etc/nixos";
+
+  my $cross_compile = "'with <nixpkgs> { crossSystem = { config = \"aarch64-linux\"; }; }; (pkgsCross.aarch64-multiplatform.stdenv)'";
+  my $system = "--no-bootloader --system aarch64-linux";
 
   my $command = ($opts->{flakes} == 1) ?
     # Use the flake in /etc/nixos that has the system name `rpi5`
-    "nixos-install --flake $config#rpi5 --root $root --no-bootloader" :
+    "nixos-install --flake $config#rpi5 --root $root $system" :
     # Or use the file saved at /etc/nixos/configuration.nix
-    "nixos-install --root $root -I nixos-config=$config/configuration.nix --no-bootloader";
+    "nixos-install --root $root -I nixos-config=$config/configuration.nix $system";
 
   # Run the installation command in a temporary nix environment
-  system("sudo nix-shell -p nixos-install --run '$command --show-trace'") == 0 or die "$!";
+  system("sudo nix-shell -p $cross_compile nixos-install --run '$command --show-trace'") == 0 or die "$!";
 
   # Chroot & set root password
   system("echo 'root:root' | sudo chroot $root chpasswd") == 0 or die "$!";
