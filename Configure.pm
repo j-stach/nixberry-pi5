@@ -81,7 +81,7 @@ sub modify_boot_config {
 # TODO Configure NixOS according to `configuration.nix` file provided by the user
 sub nixos {
   my ($root, $opts) = @_;
-  my $config = $root."/etc/nixos/";
+  my $config = $root."/etc/nixos";
   make_path($config);
 
   # TODO: if config path is found in options, install it without checking validity
