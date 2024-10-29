@@ -127,7 +127,7 @@ sub nixos_install {
     "nixos-install --root $root -I nixos-config=$config/configuration.nix --no-bootloader";
 
   # Run the installation command in a temporary nix environment
-  system("sudo nix-shell -p nixos-install --run '$command'") == 0 or die "$!";
+  system("sudo nix-shell -p nixos-install --run '$command --show-trace'") == 0 or die "$!";
 
   # Chroot & set root password
   system("echo 'root:root' | sudo chroot $root chpasswd") == 0 or die "$!";
