@@ -1,10 +1,9 @@
+# Work in progress! Don't use me yet!
+### Notice: Given the uncertainty within the Nix community at the time of writing, work on this project has been postponed indefinitely.
+
 
 # nixberry
 Installation script for plug & play NixOS on the Raspberry Pi 5.
-
-# Work in progress! Don't use me yet!
-Tests needed:
-- [ ] ...
 
 ## Materials:
 - Raspberry Pi 5 
